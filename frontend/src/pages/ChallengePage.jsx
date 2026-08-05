@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 import Mudra from '../components/Mudra';
 import Confetti from '../components/Confetti';
 import { colors, fonts, fontImport } from '../theme';
-import { UNITS } from '../curriculum';
+import { UNITS } from '../Curriculum';
 import { useProgress } from '../ProgressContext';
 
 const BACKEND_URL = 'http://localhost:5000';
