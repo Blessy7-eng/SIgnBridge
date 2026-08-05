@@ -43,7 +43,7 @@ export default function HomePage() {
               <div className="sb-progress-track"><span style={{ width: `${Math.min(100, Math.max(12, xp))}%` }} /></div>
             </div>
           </div>
-          <div className="sb-hero-mascot"><HumanMascot size={245} mood="happy" message="Hi, I&apos;m Mira!" /></div>
+          <div className="sb-hero-mascot"><HumanMascot size={245} mood="happy" message={"Hi, I'm Mira!"} /></div>
         </section>
 
         <section className="sb-section sb-fade-up" style={{ animationDelay: '.12s' }}>
