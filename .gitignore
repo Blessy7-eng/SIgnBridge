@@ -1,0 +1,4 @@
+server/motion_data.pickle 
+data_motion_hands/ 
+*.pickle 
+*.npy 
