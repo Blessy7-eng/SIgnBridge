@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 import PageHeader from '../components/PageHeader';
 import Footer from '../components/Footer';
 import { colors, fonts, fontImport } from '../theme';
-import { getUnit } from '../curriculum';
+import { getUnit } from '../Curriculum';
 import { useProgress } from '../ProgressContext';
 import { getSignDescription } from '../signDescriptions';
 import Mudra from '../components/Mudra';
@@ -102,15 +102,15 @@ export default function PracticePage() {
     // Clear/Backspace gestures aren't meaningful during practice - just
     // ignore them here rather than trying to apply sentence-editing logic
     // that doesn't exist on this page.
-    socket.on('cleared', () => {});
-    socket.on('undo_last', () => {});
+    socket.on('cleared', () => { });
+    socket.on('undo_last', () => { });
 
     return () => socket.disconnect();
   }, [unitId]); // NOT signName - the socket connection should persist as you move
-                // between signs within the same unit; reconnecting on every
-                // sign change was exactly what caused the rapid connect/
-                // disconnect churn (and the resulting background-thread
-                // race condition) seen in testing.
+  // between signs within the same unit; reconnecting on every
+  // sign change was exactly what caused the rapid connect/
+  // disconnect churn (and the resulting background-thread
+  // race condition) seen in testing.
 
   useEffect(() => {
     if (cameraStatus !== 'granted') return;
