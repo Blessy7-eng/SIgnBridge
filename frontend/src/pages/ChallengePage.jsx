@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 import Mudra from '../components/Mudra';
 import Confetti from '../components/Confetti';
 import { colors, fonts, fontImport } from '../theme';
-import { UNITS } from '../curriculum';
+import { UNITS } from '../Curriculum';
 import { useProgress } from '../ProgressContext';
 
 const BACKEND_URL = 'http://localhost:5000';
@@ -102,8 +102,8 @@ export default function ChallengePage() {
       // keeps the game feeling encouraging rather than punishing.
     });
 
-    socket.on('cleared', () => {});
-    socket.on('undo_last', () => {});
+    socket.on('cleared', () => { });
+    socket.on('undo_last', () => { });
 
     return () => socket.disconnect();
   }, []);
