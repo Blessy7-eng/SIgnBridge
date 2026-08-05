@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import Footer from '../components/Footer';
 import { colors, fonts, fontImport } from '../theme';
-import { UNITS } from '../curriculum';
+import { UNITS } from '../Curriculum';
 import { useProgress } from '../ProgressContext';
 
 // Zigzag horizontal offsets for the winding path effect, cycling through a
