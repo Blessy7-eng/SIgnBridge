@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 import PageHeader from '../components/PageHeader';
 import Footer from '../components/Footer';
 import { colors, fonts, fontImport } from '../theme';
-import { getUnit } from '../curriculum';
+import { getUnit } from '../Curriculum';
 import { useProgress } from '../ProgressContext';
 import { getSignDescription } from '../signDescriptions';
 import Mudra from '../components/Mudra';
