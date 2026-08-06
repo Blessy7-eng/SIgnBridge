@@ -2,15 +2,19 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { fonts } from '../theme';
 
 const MASCOT_ASSETS = {
-  happy: '/Hello.png',
-  pointing: '/Pointing%20to%20progress%20bar.png',
-  encourage: '/Keep%20it%20up.png',
-  correct: '/Celebration.jpg',
-  smallSuccess: '/thumps%20up.jpg',
-  focus: '/Thinking.jpg',
-  wrong: '/sad.png',
-  hover: '/yes.png',
-  goodbye: '/goodbye.png',
+  happy: '/mascot-expression-01.png',
+  idle: '/mascot-expression-07.png',
+  hello: '/mascot-expression-01.png',
+  goodbye: '/mascot-expression-02.png',
+  pointing: '/mascot-expression-10.png',
+  encourage: '/mascot-expression-06.png',
+  correct: '/mascot-expression-12.png',
+  smallSuccess: '/mascot-expression-11.png',
+  focus: '/mascot-expression-08.png',
+  wrong: '/mascot-expression-09.png',
+  hover: '/mascot-expression-11.png',
+  talking: '/mascot-expression-05.png',
+  openHands: '/mascot-expression-07.png',
 };
 
 const MESSAGES = {
@@ -52,8 +56,8 @@ export default function HumanMascot({ mood = 'happy', size = 180, message, compa
   const activeMood = hoverMood === 'hover' ? 'hover' : hoverMood;
   const copy = message || MESSAGES[activeMood] || MESSAGES.happy;
   const image = MASCOT_ASSETS[activeMood] || MASCOT_ASSETS.happy;
-  const isCelebrating = activeMood === 'correct' || activeMood === 'smallSuccess';
   const moodLabel = useMemo(() => LABELS[activeMood] || LABELS.happy, [activeMood]);
+  const isCelebrating = activeMood === 'correct' || activeMood === 'smallSuccess';
 
   function speakMessage() {
     if (!speakable || typeof window === 'undefined' || !('speechSynthesis' in window)) return;
@@ -79,9 +83,7 @@ export default function HumanMascot({ mood = 'happy', size = 180, message, compa
       <div className="human-mascot-art-wrap">
         <div className="human-mascot-art">
           <img src={image} alt={`${moodLabel}.`} />
-          {activeMood === 'pointing' && <span className="mascot-motion-line" aria-hidden="true">→</span>}
-          <span className="mascot-star mascot-star-one" aria-hidden="true">+</span>
-          <span className="mascot-star mascot-star-two" aria-hidden="true">*</span>
+
         </div>
         {activeMood === 'correct' && <span className="mascot-reaction mascot-reaction-one">Level Up!</span>}
         {activeMood === 'smallSuccess' && <span className="mascot-reaction mascot-reaction-one">Great Job!</span>}
@@ -102,4 +104,3 @@ export default function HumanMascot({ mood = 'happy', size = 180, message, compa
   );
 }
 
-export { MASCOT_ASSETS };

@@ -217,6 +217,15 @@ export default function InterpreterPage() {
         <div className="sb-video-box" style={{ width: '100%', marginTop: '6px', fontFamily: fonts.mono, fontSize: '11px', color: colors.inkMuted }}>
           {lastWord && `Last action: ${lastWord}`}
         </div>
+
+        <div style={{ alignSelf: 'flex-end', marginTop: '10px' }}>
+          <HumanMascot
+            size={118}
+            compact
+            mood={mascotMood}
+            message={mascotMood === 'smallSuccess' ? 'I recognized that sign!' : 'Show me a sign and I will help.'}
+          />
+        </div>
       </main>
 
       <Footer />
