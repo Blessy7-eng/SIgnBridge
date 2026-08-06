@@ -3,6 +3,7 @@ import { io } from 'socket.io-client';
 import PageHeader from '../components/PageHeader';
 import Footer from '../components/Footer';
 import { colors, fonts, fontImport } from '../theme';
+import HumanMascot from '../components/HumanMascot';
 
 const BACKEND_URL = 'http://localhost:5000';
 const FRAME_INTERVAL_MS = 60; // was 90 - sends frames more often so the
@@ -20,6 +21,7 @@ export default function InterpreterPage() {
   const [cameraStatus, setCameraStatus] = useState('requesting');
   const [sentenceWords, setSentenceWords] = useState([]);
   const [lastWord, setLastWord] = useState('');
+  const [mascotMood, setMascotMood] = useState('focus');
 
   useEffect(() => {
     sentenceWordsRef.current = sentenceWords;
@@ -55,6 +57,8 @@ export default function InterpreterPage() {
     socket.on('prediction', (data) => {
       setSentenceWords((prev) => [...prev, data.word]);
       setLastWord(data.word);
+      setMascotMood('smallSuccess');
+      window.setTimeout(() => setMascotMood('focus'), 3000);
       speak(data.word);
     });
 

@@ -122,31 +122,35 @@ button { font: inherit; }
   width: min(100%, calc(var(--mascot-size) + 104px));
 }
 
-.human-mascot-art-wrap { position: relative; }
+.human-mascot-art-wrap { position: relative; width: var(--mascot-size); }
 .human-mascot-art {
   position: relative;
   width: var(--mascot-size);
-  height: var(--mascot-size);
-  overflow: hidden;
-  border-radius: 50%;
-  background: #d5eee8;
-  border: 8px solid #fffdf8;
-  box-shadow: 0 12px 0 #9bcfc2, 0 20px 35px rgba(53, 92, 80, .14);
+  height: calc(var(--mascot-size) * 1.25);
+  overflow: visible;
+  border-radius: 18px;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
   animation: mascot-float 3.2s ease-in-out infinite;
-  transition: transform .2s ease, box-shadow .2s ease;
+  transition: transform .2s ease, filter .2s ease;
 }
 
-.human-mascot-art img { width: 100%; height: 100%; object-fit: cover; object-position: center 34%; transition: transform .35s ease, filter .25s ease; }
-.human-mascot.is-hovered .human-mascot-art { transform: translateY(-4px) rotate(1deg); box-shadow: 0 16px 0 #9bcfc2, 0 24px 38px rgba(53, 92, 80, .16); }
+.human-mascot-art img { width: 100%; height: 100%; object-fit: contain; object-position: center; transition: transform .35s ease, filter .25s ease; }
+.human-mascot.is-hovered .human-mascot-art { transform: translateY(-4px) rotate(1deg); filter: drop-shadow(0 12px 12px rgba(53, 92, 80, .16)); }
 .human-mascot.is-hovered .human-mascot-art img { transform: scale(1.035); }
-.human-mascot-correct .human-mascot-art { animation: mascot-celebrate .72s ease-out 1, mascot-float 3.2s ease-in-out .72s infinite; }
+.human-mascot-correct .human-mascot-art, .human-mascot-smallSuccess .human-mascot-art { animation: mascot-celebrate .72s ease-out 1, mascot-float 3.2s ease-in-out .72s infinite; }
 .human-mascot-wrong .human-mascot-art { animation: mascot-encourage .5s ease-in-out 1, mascot-float 3.2s ease-in-out .5s infinite; }
-.human-mascot-compact .human-mascot-art { border-width: 5px; box-shadow: 0 7px 0 #9bcfc2, 0 12px 24px rgba(53, 92, 80, .12); }
+.human-mascot-pointing .human-mascot-art { animation: mascot-point 1.8s ease-in-out infinite; }
+.human-mascot-compact .human-mascot-art { border: 0; box-shadow: none; }
+
+.mascot-motion-line { position: absolute; right: -10px; top: 40%; color: #e27951; font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 700; animation: mascot-point-arrow .75s ease-in-out infinite; }
 
 .mascot-star { position: absolute; color: #e27951; font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
 .mascot-star-one { top: 15%; left: 7%; font-size: 23px; }
 .mascot-star-two { right: 8%; top: 28%; font-size: 18px; color: #e9b84c; }
 .mascot-reaction { position: absolute; right: -15px; top: 5px; padding: 6px 8px; border-radius: 8px; background: #e27951; color: #fffdf8; font-size: 11px; font-weight: 700; transform: rotate(8deg); animation: mascot-pop .45s ease-out both; }
+.mascot-confetti { position: absolute; inset: 4% -18% auto; color: #e27951; font-size: 18px; letter-spacing: 8px; pointer-events: none; animation: mascot-confetti-fall 1.8s ease-out both; }
 .mascot-bubble-row { display: flex; align-items: center; gap: 7px; max-width: 100%; margin-top: 18px; }
 .mascot-bubble { position: relative; padding: 10px 15px; border: 1px solid #dbe7df; border-radius: 10px; background: #fffdf8; color: #49665c; font-size: 13px; font-weight: 600; box-shadow: 0 5px 0 #e6eee8; }
 .mascot-bubble::before { content: ''; position: absolute; left: 28px; top: -16px; border: 8px solid transparent; border-bottom-color: #dbe7df; }
@@ -157,6 +161,9 @@ button { font: inherit; }
 @keyframes mascot-celebrate { 0%,100% { transform: translateY(0) scale(1); } 35% { transform: translateY(-12px) scale(1.04); } 65% { transform: translateY(1px) scale(.98); } }
 @keyframes mascot-encourage { 0%,100% { transform: rotate(0); } 35% { transform: rotate(-5deg); } 70% { transform: rotate(4deg); } }
 @keyframes mascot-pop { from { opacity: 0; transform: scale(.7) rotate(8deg); } to { opacity: 1; transform: scale(1) rotate(8deg); } }
+@keyframes mascot-point { 0%,100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+@keyframes mascot-point-arrow { 0%,100% { opacity: .45; transform: translateX(0); } 50% { opacity: 1; transform: translateX(6px); } }
+@keyframes mascot-confetti-fall { from { opacity: 0; transform: translateY(-12px) rotate(-5deg); } 30% { opacity: 1; } to { opacity: 0; transform: translateY(34px) rotate(8deg); } }
 @keyframes sb-fade-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 .sb-fade-up { animation: sb-fade-up .55s ease both; }
 

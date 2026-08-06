@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import HumanMascot from '../components/HumanMascot';
@@ -24,6 +24,20 @@ export default function HomePage() {
   const navigate = useNavigate();
   const { xp } = useProgress();
   const signOfDay = getSignOfTheDay();
+  const pathRef = useRef(null);
+  const [mascotMood, setMascotMood] = useState('happy');
+
+  useEffect(() => {
+    const introTimer = window.setTimeout(() => setMascotMood('pointing'), 1800);
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) setMascotMood('pointing');
+    }, { rootMargin: '0px 0px -20% 0px' });
+    if (pathRef.current) observer.observe(pathRef.current);
+    return () => {
+      window.clearTimeout(introTimer);
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <div className="sb-page">
@@ -43,10 +57,10 @@ export default function HomePage() {
               <div className="sb-progress-track"><span style={{ width: `${Math.min(100, Math.max(12, xp))}%` }} /></div>
             </div>
           </div>
-          <div className="sb-hero-mascot"><HumanMascot size={245} mood="happy" message={"Hi, I'm Mira!"} /></div>
+          <div className="sb-hero-mascot"><HumanMascot size={245} mood={mascotMood} message={mascotMood === 'pointing' ? 'Your progress is right here.' : "Hi, I'm Mira!"} /></div>
         </section>
 
-        <section className="sb-section sb-fade-up" style={{ animationDelay: '.12s' }}>
+        <section ref={pathRef} className="sb-section sb-fade-up" style={{ animationDelay: '.12s' }}>
           <div className="sb-section-heading"><div><div className="sb-section-label">Pick a path</div><h2 style={{ fontFamily: fonts.display }}>What would you like to do?</h2></div><Link className="sb-text-link" to="/learn">See all lessons →</Link></div>
           <div className="sb-lesson-grid">
             {lessons.map((lesson) => (
@@ -61,7 +75,7 @@ export default function HomePage() {
 
         <section className="sb-daily-card sb-fade-up" style={{ animationDelay: '.2s' }}>
           <div><div className="sb-section-label">Today&apos;s tiny win</div><h2 style={{ fontFamily: fonts.display }}>Practice “{signOfDay}”</h2><p>One clear sign today is better than waiting for the perfect study session.</p><Link className="sb-primary-button sb-inline-button" to={`/learn/words/practice/${encodeURIComponent(signOfDay)}`}>Practice now</Link></div>
-          <HumanMascot size={112} compact mood="focus" message="You&apos;ve got this." />
+          <HumanMascot size={112} compact mood="encourage" message="You've got this." />
         </section>
       </main>
     </div>

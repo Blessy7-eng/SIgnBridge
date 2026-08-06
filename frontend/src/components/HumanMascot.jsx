@@ -1,27 +1,59 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { fonts } from '../theme';
 
-const MASCOT_IMAGE = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1785778925507-vgB8EO8iW3U1lqinft9QTxlGNscqWc.png';
-
-const MESSAGES = {
-  happy: 'Ready to sign?',
-  correct: 'Great job!',
-  wrong: 'That was close. Try once more.',
-  encourage: 'Small steps add up.',
-  focus: "Let's practice together.",
+const MASCOT_ASSETS = {
+  happy: '/Hello.png',
+  pointing: '/Pointing%20to%20progress%20bar.png',
+  encourage: '/Keep%20it%20up.png',
+  correct: '/Celebration.jpg',
+  smallSuccess: '/thumps%20up.jpg',
+  focus: '/Thinking.jpg',
+  wrong: '/sad.png',
+  hover: '/yes.png',
+  goodbye: '/goodbye.png',
 };
 
-export default function HumanMascot({ mood = 'happy', size = 180, message, compact = false, speakable = true }) {
+const MESSAGES = {
+  happy: "Hi, I'm Mira!",
+  pointing: 'Your next step is right here.',
+  correct: 'Level Up! Great job!',
+  smallSuccess: 'Nice work!',
+  wrong: "It's okay! Try again.",
+  encourage: 'Keep it up! You are making progress.',
+  focus: 'I am focusing on your gesture.',
+  goodbye: 'See you next time!',
+};
+
+const LABELS = {
+  happy: 'Mira is ready to help',
+  pointing: 'Mira is pointing to your progress',
+  correct: 'Mira is celebrating your answer',
+  smallSuccess: 'Mira is giving you a thumbs up',
+  wrong: 'Mira is encouraging another try',
+  encourage: 'Mira is cheering you on',
+  focus: 'Mira is helping you focus',
+  goodbye: 'Mira is saying goodbye',
+  hover: 'Mira is giving you a thumbs up',
+};
+
+export default function HumanMascot({ mood = 'happy', size = 180, message, compact = false, speakable = true, className = '' }) {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const copy = message || MESSAGES[mood] || MESSAGES.happy;
-  const moodLabel = useMemo(() => ({
-    happy: 'Mira is ready to help',
-    correct: 'Mira is celebrating your answer',
-    wrong: 'Mira is encouraging another try',
-    encourage: 'Mira is cheering you on',
-    focus: 'Mira is helping you focus',
-  }[mood] || 'SignBridge learning guide'), [mood]);
+  const [displayedMood, setDisplayedMood] = useState(mood);
+
+  useEffect(() => {
+    setDisplayedMood(mood);
+    if (mood !== 'correct' && mood !== 'smallSuccess') return undefined;
+    const timeout = window.setTimeout(() => setDisplayedMood('encourage'), 3000);
+    return () => window.clearTimeout(timeout);
+  }, [mood]);
+
+  const hoverMood = isHovered && ['happy', 'pointing', 'encourage'].includes(displayedMood) ? 'hover' : displayedMood;
+  const activeMood = hoverMood === 'hover' ? 'hover' : hoverMood;
+  const copy = message || MESSAGES[activeMood] || MESSAGES.happy;
+  const image = MASCOT_ASSETS[activeMood] || MASCOT_ASSETS.happy;
+  const isCelebrating = activeMood === 'correct' || activeMood === 'smallSuccess';
+  const moodLabel = useMemo(() => LABELS[activeMood] || LABELS.happy, [activeMood]);
 
   function speakMessage() {
     if (!speakable || typeof window === 'undefined' || !('speechSynthesis' in window)) return;
@@ -37,7 +69,7 @@ export default function HumanMascot({ mood = 'happy', size = 180, message, compa
 
   return (
     <div
-      className={`human-mascot human-mascot-${mood} ${compact ? 'human-mascot-compact' : ''} ${isHovered ? 'is-hovered' : ''}`}
+      className={`human-mascot human-mascot-${activeMood} ${compact ? 'human-mascot-compact' : ''} ${isHovered ? 'is-hovered' : ''} ${className}`}
       style={{ '--mascot-size': `${size}px` }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -46,12 +78,15 @@ export default function HumanMascot({ mood = 'happy', size = 180, message, compa
     >
       <div className="human-mascot-art-wrap">
         <div className="human-mascot-art">
-          <img src={MASCOT_IMAGE} alt="Mira, the SignBridge learning guide" />
+          <img src={image} alt={`${moodLabel}.`} />
+          {activeMood === 'pointing' && <span className="mascot-motion-line" aria-hidden="true">→</span>}
           <span className="mascot-star mascot-star-one" aria-hidden="true">+</span>
           <span className="mascot-star mascot-star-two" aria-hidden="true">*</span>
         </div>
-        {mood === 'correct' && <span className="mascot-reaction mascot-reaction-one" aria-hidden="true">+1</span>}
-        {mood === 'wrong' && <span className="mascot-reaction mascot-reaction-one" aria-hidden="true">Try</span>}
+        {activeMood === 'correct' && <span className="mascot-reaction mascot-reaction-one">Level Up!</span>}
+        {activeMood === 'smallSuccess' && <span className="mascot-reaction mascot-reaction-one">Great Job!</span>}
+        {activeMood === 'wrong' && <span className="mascot-reaction mascot-reaction-one">Try again</span>}
+        {isCelebrating && <div className="mascot-confetti" aria-hidden="true">✦ · ✧ · ✦ · · ✧</div>}
       </div>
       {(copy || speakable) && (
         <div className="mascot-bubble-row">
@@ -67,4 +102,4 @@ export default function HumanMascot({ mood = 'happy', size = 180, message, compa
   );
 }
 
-export { MASCOT_IMAGE };
+export { MASCOT_ASSETS };

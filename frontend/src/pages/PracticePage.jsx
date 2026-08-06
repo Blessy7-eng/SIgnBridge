@@ -8,6 +8,7 @@ import { getUnit } from '../Curriculum';
 import { useProgress } from '../ProgressContext';
 import { getSignDescription } from '../signDescriptions';
 import Mudra from '../components/Mudra';
+import HumanMascot from '../components/HumanMascot';
 import Confetti from '../components/Confetti';
 import UnitCompleteModal from '../components/UnitCompleteModal';
 
@@ -194,7 +195,7 @@ export default function PracticePage() {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '4px' }}>
-          <Mudra reaction={companionReaction} size={64} />
+          <HumanMascot size={92} compact mood={companionReaction || 'focus'} message={companionReaction === 'correct' ? 'Great job!' : companionReaction === 'wrong' ? "It's okay! Try again." : 'I am focusing on your gesture.'} />
           <h1 style={{ fontFamily: fonts.display, fontWeight: 700, fontSize: 'clamp(26px, 5vw, 40px)', color: colors.ink, margin: 0 }}>
             Show me: {signName}
           </h1>
