@@ -102,8 +102,8 @@ export default function ChallengePage() {
       // keeps the game feeling encouraging rather than punishing.
     });
 
-    socket.on('cleared', () => {});
-    socket.on('undo_last', () => {});
+    socket.on('cleared', () => { });
+    socket.on('undo_last', () => { });
 
     return () => socket.disconnect();
   }, []);

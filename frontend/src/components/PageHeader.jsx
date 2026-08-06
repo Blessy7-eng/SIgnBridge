@@ -1,66 +1,38 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { colors, fonts } from '../theme';
-
-function Mark() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" style={{ display: 'block' }}>
-      <circle cx="3" cy="14" r="2" fill={colors.primary} />
-      <circle cx="10" cy="4" r="2" fill={colors.primary} />
-      <circle cx="17" cy="12" r="2" fill={colors.secondary} />
-      <path d="M3 14 Q 7 6, 10 4 T 17 12" stroke={colors.border} strokeWidth="1.5" fill="none" strokeDasharray="1 3" />
-    </svg>
-  );
-}
+import LoadingScreen from './LoadingScreen';
 
 export default function PageHeader() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isHome = location.pathname === '/';
+  const [showLoading, setShowLoading] = useState(false);
+
+  function previewLoading() {
+    setShowLoading(true);
+  }
 
   return (
-    <div
-      style={{
-        width: '100%',
-        maxWidth: '1000px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        margin: '0 auto 14px',
-        padding: '0 8px',
-      }}
-    >
-      <Link
-        to="/"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          textDecoration: 'none',
-          color: colors.ink,
-          fontFamily: fonts.display,
-          fontSize: '15px',
-          fontWeight: 600,
-        }}
-      >
-        <Mark />
-        SignBridge
+    <header className="sb-topbar" style={{ fontFamily: fonts.body }}>
+      <Link to="/" className="sb-brand" style={{ color: colors.ink, fontFamily: fonts.display }}>
+        <span className="sb-brand-mark">S</span>
+        <span>SignBridge</span>
       </Link>
-
-      <button
-        onClick={() => navigate(-1)}
-        style={{
-          fontFamily: fonts.body,
-          fontSize: '13px',
-          color: colors.inkMuted,
-          background: 'transparent',
-          textDecoration: 'none',
-          border: `1px solid ${colors.border}`,
-          borderRadius: '8px',
-          padding: '5px 12px',
-          cursor: 'pointer',
-        }}
-      >
-        ← Back
-      </button>
-    </div>
+      <nav className="sb-nav" aria-label="Primary navigation">
+        <Link className={location.pathname.startsWith('/learn') ? 'is-active' : ''} to="/learn">Learn</Link>
+        <Link className={location.pathname === '/interpreter' ? 'is-active' : ''} to="/interpreter">Interpreter</Link>
+        <Link className={location.pathname === '/challenge' ? 'is-active' : ''} to="/challenge">Challenge</Link>
+      </nav>
+      <div className="sb-header-actions">
+        {!isHome ? (
+          <button className="sb-back-button" onClick={() => navigate(-1)} aria-label="Go back">Back</button>
+        ) : (
+          <div className="sb-streak-chip"><span>7</span> day streak</div>
+        )}
+        <button className="sb-loading-preview-button" type="button" onClick={previewLoading}>Preview loading</button>
+      </div>
+      {showLoading && <LoadingScreen onComplete={() => setShowLoading(false)} label="Previewing the SignBridge loading screen" />}
+    </header>
   );
 }
